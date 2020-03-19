@@ -19,5 +19,11 @@ module.exports = {
     ],
     "rules": {
         // "no-undef": "off"
-    }
+    },
+    "globals": {
+        "d3": true,
+        "scrollama": true,
+        "Vue": true
+    },
+    "ignorePatterns": ["assets/js"],
 };

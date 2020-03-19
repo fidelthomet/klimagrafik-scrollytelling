@@ -8,6 +8,7 @@
   <title>Scrollytelling Template</title>
   <script src="../assets/js/vue.js"></script>
   <script src="../assets/js/scrollama.min.js"></script>
+  <script src="../assets/js/d3.min.js"></script>
   <link rel="stylesheet" href="../assets/css/normalize.css">
   <link rel="stylesheet" href="../assets/css/fonts.css">
   <link rel="stylesheet" href="index.css">
@@ -34,8 +35,22 @@
       <section class="scrolly">
         <figure ref="figure">
           <svg :width="width" :height="height">
-            <rect :width="width" :height="height" />
-            <circle :cx="width / 2" :cy="height / 2" :fill="circleColor" :r="height / 4" />
+            <rect class="bg" :width="width" :height="height" />
+            <circle :cx="width / 2" :cy="height / 2" :fill="circleColor" :r="radius" />
+            <line x1="0" y1="0" :x2="width" :y2="height" :stroke="lineColor" :class="{thick: step === 1}"/>
+            <line x1="0" :y1="height" :x2="width" y2="0" :stroke="lineColor" :class="{thick: step === 2}"/>
+            <g :transform="`translate(${width / 2} ${height / 3})`">
+              <rect v-for="(r, i) in rects" :key="i" class="square" :width="r.size" :height="r.size" :transform="`translate(${r.x} ${r.y})`"/>
+            </g>
+            <g :transform="`translate(${width / 2} ${height / 3 * 2})`">
+              <rect v-for="(r, i) in rects" :key="i" class="square" :width="r.size" :height="r.size" :style="{transform: `translate(${r.x}px, ${r.y}px)`}"/>
+            </g>
+            <transition name="fade">
+              <g v-if="step === 1" :transform="`translate(${width / 2} ${height / 2})`">
+                <text y="-10" :font-weight="fontWeight">Berliner Kindheit</text>
+                <text y="70" :font-weight="fontWeight">um Neunzehnhundert</text>
+              </g>
+            </transition>
           </svg>
         </figure>
         <article>
